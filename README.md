@@ -9,7 +9,7 @@ A minimal environment setup script (`nenv.sh`) for new Linux boards. It installs
 ### Default (Install Packages & Update .bashrc)
 
 ```bash
-curl -sSL [https://raw.githubusercontent.com/gslm/nenv/main/nenv.sh](https://raw.githubusercontent.com/gslm/nenv/main/nenv.sh) | sudo bash -s --
+curl -sSL [https://raw.githubusercontent.com/gslm/nenv/main/nenv.sh](https://raw.githubusercontent.com/gslm/nenv/main/nenv.sh) | sudo bash -s -- -b && source ~/.bashrc
 ```
 
 Install Packages Only
@@ -19,7 +19,7 @@ curl -sSL [https://raw.githubusercontent.com/gslm/nenv/main/nenv.sh](https://raw
 
 Update .bashrc Only
 ```bash
-curl -sSL [https://raw.githubusercontent.com/gslm/nenv/main/nenv.sh](https://raw.githubusercontent.com/gslm/nenv/main/nenv.sh) | sudo bash -s -- -b
+curl -sSL [https://raw.githubusercontent.com/gslm/nenv/main/nenv.sh](https://raw.githubusercontent.com/gslm/nenv/main/nenv.sh) | sudo bash -s -- -b  && source ~/.bashrc
 ```
 
 Show Help
