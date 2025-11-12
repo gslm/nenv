@@ -17,4 +17,4 @@ The script is designed to be run on new systems and is safe to re-run. It automa
 Runs both the package installer and the `.bashrc` update, then **immediately loads** the new aliases into your shell.
 
 ```bash
-curl -sSL [https://raw.githubusercontent.com/gslm/nenv/main/nenv.sh](https://raw.githubusercontent.com/gslm/nenv/main/nenv.sh) | sudo bash -s -- && source ~/.bashrc
+curl -sSL https://raw.githubusercontent.com/gslm/nenv/main/nenv.sh | sudo bash -s -- && source ~/.bashrc
