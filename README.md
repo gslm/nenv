@@ -1,28 +1,20 @@
 # nenv
 
-A minimal environment setup script (`nenv.sh`) for new Linux boards. It installs common dev packages and idempotently updates `~/.bashrc` with useful aliases.
+A minimal environment setup script (`nenv.sh`) for new Linux boards. It installs common development packages and idempotently updates `~/.bashrc` with useful aliases.
 
-## One-Liner Execution
+The script is designed to be run on new systems and is safe to re-run. It automatically finds the calling user's `.bashrc` file when run with `sudo`.
 
-> **Note:** These commands pipe a remote script directly into `sudo bash`. Only run them if you trust this repository.
+## 🚀 One-Liner Execution
+
+> **Security Warning:** These commands pipe a script from the internet directly into `sudo bash`. This is a potential security risk. Only run these commands if you fully trust this repository.
+>
+> **Note:** Copy the *entire line* from the grey code blocks below.
+
+---
 
 ### Default (Install Packages & Update .bashrc)
 
-```bash
-curl -sSL [https://raw.githubusercontent.com/gslm/nenv/main/nenv.sh](https://raw.githubusercontent.com/gslm/nenv/main/nenv.sh) | sudo bash -s -- -b && source ~/.bashrc
-```
+Runs both the package installer and the `.bashrc` update, then **immediately loads** the new aliases into your shell.
 
-Install Packages Only
 ```bash
-curl -sSL [https://raw.githubusercontent.com/gslm/nenv/main/nenv.sh](https://raw.githubusercontent.com/gslm/nenv/main/nenv.sh) | sudo bash -s -- -i
-```
-
-Update .bashrc Only
-```bash
-curl -sSL [https://raw.githubusercontent.com/gslm/nenv/main/nenv.sh](https://raw.githubusercontent.com/gslm/nenv/main/nenv.sh) | sudo bash -s -- -b  && source ~/.bashrc
-```
-
-Show Help
-```bash
-curl -sSL [https://raw.githubusercontent.com/gslm/nenv/main/nenv.sh](https://raw.githubusercontent.com/gslm/nenv/main/nenv.sh) | bash -s -- -
-```
+curl -sSL [https://raw.githubusercontent.com/gslm/nenv/main/nenv.sh](https://raw.githubusercontent.com/gslm/nenv/main/nenv.sh) | sudo bash -s -- && source ~/.bashrc
