@@ -1,10 +1,9 @@
-#!/bin/bash
+#!/bin/sh
 #
-# nenv.sh - New Environment Setup Script
+# nenv.sh - New Environment Setup Script (POSIX-compliant)
 #
-# This script installs common development packages and sets up bash aliases.
-# It is designed to be idempotent and can be run with flags to
-# perform specific actions.
+# This script installs common dev packages and sets up bash aliases.
+# It is designed to be idempotent and run on minimal 'sh' shells.
 #
 # USAGE: sudo ./nenv.sh [FLAG]
 #
@@ -14,14 +13,8 @@
 # Exit immediately if a command exits with a non-zero status.
 set -e
 
-# Define the packages to install
-PACKAGES=(
-    "xterm"
-    "neovim"
-    "net-tools"
-    "ripgrep"
-    "fzf"
-)
+# Define the packages to install (as a POSIX-compliant string)
+PACKAGES="xterm neovim net-tools ripgrep fzf"
 
 # Define the .bashrc markers
 START_MARKER="# START NENV CONFIG"
@@ -29,7 +22,6 @@ END_MARKER="# END NENV CONFIG"
 
 # --- Default Flags ---
 # 1 = true, 0 = false
-# Default is to run both tasks
 DO_INSTALL=1
 DO_BASHRC=1
 
@@ -50,12 +42,13 @@ show_help() {
 
 # Function to install packages
 do_package_install() {
-    echo -e "\n📦 [Task 1/1] Updating and Installing Packages..."
+    echo "\n📦 [Task 1/1] Updating and Installing Packages..."
     echo "    -> Updating package lists..."
     apt update
     
-    echo "    -> Installing: ${PACKAGES[*]}..."
-    apt install -y "${PACKAGES[@]}"
+    echo "    -> Installing: $PACKAGES..."
+    # We pass $PACKAGES without quotes to allow word-splitting
+    apt install -y $PACKAGES
     
     echo "✅ Package installation complete."
 }
@@ -64,14 +57,18 @@ do_package_install() {
 # Requires $TARGET_BASHRC, $TARGET_USER, $START_MARKER, $END_MARKER
 # to be set as global variables.
 do_bashrc_update() {
-    echo -e "\n📝 [Task 1/1] Updating $TARGET_BASHRC..."
+    echo "\n📝 [Task 1/1] Updating $TARGET_BASHRC..."
 
     # 1. Delete the *entire* block between the markers.
     echo "    -> Removing old configuration block (if any)..."
+    # Use 'sed -i' (in-place)
+    # We use '|' as the sed delimiter to avoid issues with '/' in markers
     sed -i "\|$START_MARKER|,\|$END_MARKER|d" "$TARGET_BASHRC" || true
 
     # 2. Append the new, complete block to the end of the file.
     echo "    -> Appending new configuration block..."
+    # Note: The 'EOF' is in single quotes to prevent this script's
+    # shell from trying to interpret variables ($FZF_DEFAULT_OPTS, etc.)
     cat <<'EOF' >> "$TARGET_BASHRC"
 
 # START NENV CONFIG
@@ -164,14 +161,14 @@ case "$1" in
 esac
 
 # --- 2. Sanity Checks & User Identification ---
-# This check happens *after* the --help check
-if [[ $EUID -ne 0 ]]; then
+# Use POSIX-compliant 'id -u' instead of $EUID
+if [ "$(id -u)" -ne 0 ]; then
    echo "❌ This script must be run as root. Please use: sudo ./nenv.sh" 
    exit 1
 fi
 
-# Find the original user's home directory
-if [[ -z "$SUDO_USER" || -z "$SUDO_HOME" ]]; then
+# Use POSIX-compliant '[]' and '||' operators
+if [ -z "$SUDO_USER" ] || [ -z "$SUDO_HOME" ]; then
     echo "❌ Error: Could not determine the original user."
     echo "This script is designed to be run with sudo by a regular user."
     exit 1
@@ -183,24 +180,24 @@ TARGET_HOME="$SUDO_HOME"
 TARGET_BASHRC="$TARGET_HOME/.bashrc"
 
 echo "🔧 Running setup for user: $TARGET_USER"
-if [[ $DO_BASHRC -eq 1 ]]; then
+if [ "$DO_BASHRC" -eq 1 ]; then
     echo "🔧 Target .bashrc file: $TARGET_BASHRC"
 fi
 
 # --- 3. Main Execution ---
 
-if [[ $DO_INSTALL -eq 1 ]]; then
+if [ "$DO_INSTALL" -eq 1 ]; then
     do_package_install
 fi
 
-if [[ $DO_BASHRC -eq 1 ]]; then
+if [ "$DO_BASHRC" -eq 1 ]; then
     do_bashrc_update
 fi
 
 # --- 4. Finalization ---
-echo -e "\n🎉 Setup finished!"
+echo "\n🎉 Setup finished!"
 
-if [[ $DO_BASHRC -eq 1 ]]; then
+if [ "$DO_BASHRC" -eq 1 ]; then
     echo "To apply changes, please run: source $TARGET_BASHRC"
     echo "Or simply log out and log back in."
 fi
