@@ -8,7 +8,7 @@ The script is designed to be run on new systems and is safe to re-run. It automa
 
 > **Security Warning:** These commands pipe a script from the internet directly into `sudo bash`. This is a potential security risk. Only run these commands if you fully trust this repository.
 >
-> **Note:** Copy the *entire line* from the grey code blocks below.
+> **Note:** The "Copy" button on the code blocks below will work correctly.
 
 ---
 
