@@ -128,13 +128,15 @@ alias icc='git config --global user.name guilhermes && git config --global user.
 alias ghicc='git config --global user.name guilhermes-inatel && git config --global user.email guilhermes@inatel.br && git config --list'
 alias gslm='git config --global user.name gslm && git config --global user.email gslmexperi@gmail.com && git config --list'
 alias gfc='git reset --hard && git clean -dfx'
-alias gag-icc='eval "$(ssh-agent -s)" && ssh-add ~/.ssh/github-gslm-icc'
-alias gag-pixel='eval "$(ssh-agent -s)" && ssh-add ~/.ssh/pixelti'
-alias gag='eval "$(ssh-agent -s)" && ssh-add ~/.ssh/bitbucket-icc'
+# alias gag-icc='eval "$(ssh-agent -s)" && ssh-add ~/.ssh/github-gslm-icc'
+# alias gag-pixel='eval "$(ssh-agent -s)" && ssh-add ~/.ssh/pixelti'
+# alias gag='eval "$(ssh-agent -s)" && ssh-add ~/.ssh/bitbucket-icc'
+alias gag='eval "$(ssh-agent -s)" && find ~/.ssh -type f ! -name "*.pub" ! -name "known_hosts*" ! -name "config" ! -name "authorized_keys*" -exec ssh-add {} \;'
 
 # zsh aliases
 alias z="source ~/.zshrc"
 alias cz="code ~/.zshrc"
+alias czn="code ~/nenv/zsh/.zshrc"
 alias cterm="code ~/.config/terminator/config"
 alias bz="ct ~/.zshrc"
 alias nz="nvim ~/.zshrc"
@@ -578,4 +580,3 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
